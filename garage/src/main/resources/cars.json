@@ -1,0 +1,12 @@
+[ {
+  "id" : 1,
+  "capacity" : 3,
+  "title" : "Private garage",
+  "cars" : [ {
+    "id" : 1,
+    "make" : "dsad",
+    "model" : "dsada",
+    "color" : "sadas",
+    "running" : false
+  } ]
+} ]
