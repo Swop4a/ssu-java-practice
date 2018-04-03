@@ -32,7 +32,7 @@ export default class MyTable extends Component {
               <TableRowColumn>{car.make}</TableRowColumn>
               <TableRowColumn>{car.model}</TableRowColumn>
               <TableRowColumn>{car.color}</TableRowColumn>
-              <TableRowColumn>{car.running}</TableRowColumn>
+              <TableRowColumn>{car.running ? 'yes' : 'no'}</TableRowColumn>
               <TableRowColumn>
                 <RaisedButton label="Delete" onClick={() => {}} />
               </TableRowColumn>
