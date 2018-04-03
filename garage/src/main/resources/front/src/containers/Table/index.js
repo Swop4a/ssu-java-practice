@@ -7,6 +7,7 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
+import { RaisedButton } from 'material-ui';
 
 export default class MyTable extends Component {
   render() {
@@ -21,7 +22,7 @@ export default class MyTable extends Component {
             <TableHeaderColumn>model</TableHeaderColumn>
             <TableHeaderColumn>color</TableHeaderColumn>
             <TableHeaderColumn>running</TableHeaderColumn>
-            <TableHeaderColumn>running</TableHeaderColumn>
+            <TableHeaderColumn>actions</TableHeaderColumn>
           </TableRow>
         </TableHeader>
         <TableBody displayRowCheckbox={false}>
@@ -32,6 +33,9 @@ export default class MyTable extends Component {
               <TableRowColumn>{car.model}</TableRowColumn>
               <TableRowColumn>{car.color}</TableRowColumn>
               <TableRowColumn>{car.running}</TableRowColumn>
+              <TableRowColumn>
+                <RaisedButton label="Delete" onClick={() => {}} />
+              </TableRowColumn>
             </TableRow>
           ))}
         </TableBody>

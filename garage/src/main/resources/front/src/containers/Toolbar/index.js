@@ -1,11 +1,7 @@
 import React from 'react';
 import {
-  FontIcon,
-  IconMenu,
-  IconButton,
   MenuItem,
   DropDownMenu,
-  RaisedButton,
 } from 'material-ui';
 import {
   Toolbar,
@@ -13,7 +9,6 @@ import {
   ToolbarSeparator,
   ToolbarTitle,
 } from 'material-ui/Toolbar';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
 
 import Dialog from '../../components/Dialog';
 
@@ -25,16 +20,22 @@ const MyToolbar = ({
 }) => (
   <Toolbar>
     <ToolbarGroup firstChild={true}>
-      <DropDownMenu value={currentGarageID} onChange={handleChange}>
+      <DropDownMenu
+        maxHeight={300}
+        value={currentGarageID || 'default'}
+        onChange={handleChange}
+      >
+        <MenuItem value="default" primaryText="Choose garage" />
         {garages.length > 0 && garages.map(garage => (
           <MenuItem value={garage.id} key={garage.id} primaryText={garage.title} />
         ))}
+        {console.log(garages)}
       </DropDownMenu>
     </ToolbarGroup>
     <ToolbarGroup>
       <ToolbarTitle text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'} />
       <ToolbarSeparator />
-      <Dialog/>
+      {currentGarageID && <Dialog currentGarageID={currentGarageID} />}
     </ToolbarGroup>
   </Toolbar>
 );
