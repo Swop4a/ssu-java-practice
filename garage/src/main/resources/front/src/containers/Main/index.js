@@ -6,7 +6,7 @@ import Table from '../Table';
 import Toolbar from '../Toolbar';
 
 import { getGarages, getGarageInfo } from '../../api/garages';
-import { addCar as addCarAPI } from '../../api/cars';
+import { addCar as addCarAPI, deleteCar as deleteCarAPI } from '../../api/cars';
 
 export default class Main extends React.Component {
   state = {
@@ -30,7 +30,35 @@ export default class Main extends React.Component {
   }
 
   addCar = data => {
-    addCarAPI(data).catch(err => console.error(err));
+    addCarAPI(data)
+      .then(() => { this.appendCarToState(data.car); })
+      .catch(err => console.error(err));
+  }
+
+  deleteCar = id => {
+    deleteCarAPI(id)
+      .then(() => { this.removeCarFromState(id); })
+      .catch(err => console.error(err));
+  }
+
+  appendCarToState = car => {
+    this.setState(prevState => ({
+      garage: Object.assign(
+        {},
+        prevState.garage,
+        { cars: [...prevState.garage.cars, car].sort() }
+      ),
+    }));
+  }
+
+  removeCarFromState = id => {
+    this.setState(prevState => ({
+      garage: Object.assign(
+        {},
+        prevState.garage,
+        { cars: prevState.garage.cars.filter(car => car.id !== id) }
+      ),
+    }));
   }
 
   render() {
@@ -45,7 +73,10 @@ export default class Main extends React.Component {
           currentGarage={garage}
           addCar={this.addCar}
         />
-        <Table cars={get('cars', garage)} />
+        <Table
+          cars={get('cars', garage)}
+          deleteCar={this.deleteCar}
+        />
       </div>
     );
   }

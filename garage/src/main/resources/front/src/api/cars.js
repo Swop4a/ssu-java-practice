@@ -10,4 +10,11 @@ export const addCar = carData =>
     },
     method: 'post',
     body: JSON.stringify(carData),
+  }, {
+    json: false,
+  }).then(json => json.data)
+
+export const deleteCar = carID =>
+  request(`//localhost:${config.PORT}/api/removeCar?id=${carID}`, null, {
+    json: false,
   }).then(json => json.data)

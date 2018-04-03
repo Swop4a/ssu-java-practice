@@ -9,8 +9,8 @@ export const checkStatus = response => {
   throw error;
 };
 
-export default (url, options) =>
+export default (url, options, reqOptions = {}) =>
   fetch(url, options)
     .then(checkStatus)
-    .then(parseJSON)
+    .then(reqOptions.json === false ? arg => arg : parseJSON)
     .then(data => ({ data }));
