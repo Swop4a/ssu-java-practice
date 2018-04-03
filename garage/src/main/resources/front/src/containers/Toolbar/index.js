@@ -1,26 +1,44 @@
 import React from 'react';
-import FontIcon from 'material-ui/FontIcon';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
+import {
+  MenuItem,
+  DropDownMenu,
+} from 'material-ui';
+import {
+  Toolbar,
+  ToolbarGroup,
+  ToolbarSeparator,
+  ToolbarTitle,
+} from 'material-ui/Toolbar';
+
+import Dialog from '../Dialog';
 
 const MyToolbar = ({
   garages,
   handleChange,
   currentGarage,
   currentGarageID,
+  addCar,
 }) => (
   <Toolbar>
     <ToolbarGroup firstChild={true}>
-      <DropDownMenu value={currentGarageID} onChange={handleChange}>
+      <DropDownMenu
+        maxHeight={300}
+        value={currentGarageID || 'default'}
+        onChange={handleChange}
+      >
+        <MenuItem value="default" primaryText="Choose garage" />
         {garages.length > 0 && garages.map(garage => (
           <MenuItem value={garage.id} key={garage.id} primaryText={garage.title} />
         ))}
+        {console.log(garages)}
       </DropDownMenu>
     </ToolbarGroup>
     <ToolbarGroup>
-      <ToolbarTitle text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'} />
-      <FontIcon className="muidocs-icon-custom-sort" />
+      <ToolbarTitle
+        text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'}
+      />
+      {currentGarageID && <ToolbarSeparator />}
+      {currentGarageID && <Dialog addCar={addCar} currentGarageID={currentGarageID} />}
     </ToolbarGroup>
   </Toolbar>
 );
