@@ -21,7 +21,7 @@ export default class MyDialog extends React.Component {
     if (typeof value !== 'undefined') {
       this.setState({ open: value });
     } else {
-      this.setState(prevState => { open: !prevState.open });
+      this.setState(prevState => ({ open: !prevState.open }));
     }
   }
 
