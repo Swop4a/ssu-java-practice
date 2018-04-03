@@ -6,6 +6,7 @@ import Table from '../Table';
 import Toolbar from '../Toolbar';
 
 import { getGarages, getGarageInfo } from '../../api/garages';
+import { addCar as addCarAPI } from '../../api/cars';
 
 export default class Main extends React.Component {
   state = {
@@ -28,6 +29,10 @@ export default class Main extends React.Component {
       .catch(err => console.error(err));
   }
 
+  addCar = data => {
+    addCarAPI(data).catch(err => console.error(err));
+  }
+
   render() {
     const { garages, currentGarageID, garage } = this.state;
 
@@ -38,6 +43,7 @@ export default class Main extends React.Component {
           currentGarageID={currentGarageID}
           handleChange={this.handleToolbarChange}
           currentGarage={garage}
+          addCar={this.addCar}
         />
         <Table cars={get('cars', garage)} />
       </div>

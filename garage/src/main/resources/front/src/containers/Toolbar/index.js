@@ -10,13 +10,14 @@ import {
   ToolbarTitle,
 } from 'material-ui/Toolbar';
 
-import Dialog from '../../components/Dialog';
+import Dialog from '../Dialog';
 
 const MyToolbar = ({
   garages,
   handleChange,
   currentGarage,
   currentGarageID,
+  addCar,
 }) => (
   <Toolbar>
     <ToolbarGroup firstChild={true}>
@@ -33,9 +34,11 @@ const MyToolbar = ({
       </DropDownMenu>
     </ToolbarGroup>
     <ToolbarGroup>
-      <ToolbarTitle text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'} />
-      <ToolbarSeparator />
-      {currentGarageID && <Dialog currentGarageID={currentGarageID} />}
+      <ToolbarTitle
+        text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'}
+      />
+      {currentGarageID && <ToolbarSeparator />}
+      {currentGarageID && <Dialog addCar={addCar} currentGarageID={currentGarageID} />}
     </ToolbarGroup>
   </Toolbar>
 );

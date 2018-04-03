@@ -8,12 +8,6 @@ import {
 } from 'material-ui';
 import { Form, Field } from 'react-final-form'
 
-import { addCar } from '../../api/cars';
-
-
-/**
- * Dialogs can be nested. This example opens a Date Picker from within a Dialog.
- */
 export default class MyDialog extends React.Component {
   state = { open: false };
 
@@ -45,9 +39,7 @@ export default class MyDialog extends React.Component {
       ? formValues.id
       : Math.floor((Math.random() * Math.random()) * 1e4);
 
-    // TODO: вынести этот запрос либо в стейт контейнер, либо в метод в родителе
-    addCar({ garageId: this.props.currentGarageID, car: formValues })
-      .catch(err => console.error(err));
+    this.props.addCar({ garageId: this.props.currentGarageID, car: formValues });
   }
 
   render() {
