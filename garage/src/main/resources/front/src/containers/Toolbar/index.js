@@ -1,8 +1,21 @@
 import React from 'react';
-import FontIcon from 'material-ui/FontIcon';
-import MenuItem from 'material-ui/MenuItem';
-import DropDownMenu from 'material-ui/DropDownMenu';
-import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui/Toolbar';
+import {
+  FontIcon,
+  IconMenu,
+  IconButton,
+  MenuItem,
+  DropDownMenu,
+  RaisedButton,
+} from 'material-ui';
+import {
+  Toolbar,
+  ToolbarGroup,
+  ToolbarSeparator,
+  ToolbarTitle,
+} from 'material-ui/Toolbar';
+import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
+
+import Dialog from '../../components/Dialog';
 
 const MyToolbar = ({
   garages,
@@ -20,7 +33,8 @@ const MyToolbar = ({
     </ToolbarGroup>
     <ToolbarGroup>
       <ToolbarTitle text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'} />
-      <FontIcon className="muidocs-icon-custom-sort" />
+      <ToolbarSeparator />
+      <Dialog/>
     </ToolbarGroup>
   </Toolbar>
 );

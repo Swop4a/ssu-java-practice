@@ -14,7 +14,7 @@ export default class MyTable extends Component {
 
     return (
       <Table onRowSelection={this.handleRowSelection}>
-        <TableHeader>
+        <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
           <TableRow>
             <TableHeaderColumn>id</TableHeaderColumn>
             <TableHeaderColumn>make</TableHeaderColumn>
@@ -24,7 +24,7 @@ export default class MyTable extends Component {
             <TableHeaderColumn>running</TableHeaderColumn>
           </TableRow>
         </TableHeader>
-        <TableBody>
+        <TableBody displayRowCheckbox={false}>
           {cars && cars.map(car => (
             <TableRow key={car.id}>
               <TableRowColumn>{car.id}</TableRowColumn>
