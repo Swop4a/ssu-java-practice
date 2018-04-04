@@ -5,21 +5,23 @@ import { get } from 'lodash/fp';
 import Table from '../Table';
 import Toolbar from '../Toolbar';
 
-import { getGarages, getGarageInfo } from '../../api/garages';
+import { getGarages } from '../../api/garages';
 import { addCar as addCarAPI, deleteCar as deleteCarAPI } from '../../api/cars';
+
+import './styles.css';
 
 export default class Main extends React.Component {
   state = {
     currentGarageID: null,
     garages: [],
-    garage: null,
   };
 
   handleToolbarChange = (event, index, currentGarageID) => {
     if (currentGarageID !== 'default') {
-      getGarageInfo(currentGarageID)
-        .then(garage => this.setState({ garage, currentGarageID }))
-        .catch(err => console.error(err));
+      this.setState(prevState => ({
+        garage: prevState.garages.filter(garage => garage.id === currentGarageID)[0],
+        currentGarageID,
+      }));
     }
   }
 
@@ -31,50 +33,55 @@ export default class Main extends React.Component {
 
   addCar = data => {
     addCarAPI(data)
-      .then(() => { this.appendCarToState(data.car); })
+      .then(updatedGarage => { this.updateGarages(updatedGarage); })
       .catch(err => console.error(err));
   }
 
   deleteCar = id => {
     deleteCarAPI(id)
-      .then(() => { this.removeCarFromState(id); })
+      .then(() => {
+        getGarages()
+          .then(garages => this.setState({ garages }))
+          .catch(err => console.error(err));
+       })
       .catch(err => console.error(err));
   }
 
-  appendCarToState = car => {
+  updateGarages = newGarage => {
     this.setState(prevState => ({
-      garage: Object.assign(
-        {},
-        prevState.garage,
-        { cars: [...prevState.garage.cars, car].sort() }
-      ),
+      garages: [
+        ...prevState.garages.filter(garage => garage.id !== newGarage.id),
+        newGarage,
+      ],
     }));
-  }
-
-  removeCarFromState = id => {
-    this.setState(prevState => ({
-      garage: Object.assign(
-        {},
-        prevState.garage,
-        { cars: prevState.garage.cars.filter(car => car.id !== id) }
-      ),
-    }));
-  }
+  };
 
   render() {
-    const { garages, currentGarageID, garage } = this.state;
+    const { garages, currentGarageID } = this.state;
+    const currentGarage = garages.filter(garage => garage.id === currentGarageID)[0];
 
     return (
       <div>
         <Toolbar
           garages={garages}
           currentGarageID={currentGarageID}
+          currentGarage={currentGarage}
           handleChange={this.handleToolbarChange}
-          currentGarage={garage}
           addCar={this.addCar}
         />
+        <span className="garage-info">
+          {currentGarage && `Load: ${currentGarage.currentLoad}`}
+        </span>
+        <span className="garage-info">
+          {currentGarage && `Owner: ${currentGarage.host}`}
+        </span>
+        <span className="garage-info">
+          {get('location', currentGarage) && (
+            `Location: ${currentGarage.location}`
+          )}
+        </span>
         <Table
-          cars={get('cars', garage)}
+          cars={get('cars', currentGarage)}
           deleteCar={this.deleteCar}
         />
       </div>

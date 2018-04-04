@@ -6,7 +6,6 @@ import {
 import {
   Toolbar,
   ToolbarGroup,
-  ToolbarSeparator,
   ToolbarTitle,
 } from 'material-ui/Toolbar';
 
@@ -35,9 +34,8 @@ const MyToolbar = ({
     </ToolbarGroup>
     <ToolbarGroup>
       <ToolbarTitle
-        text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'}
+        text={'Garages'}
       />
-      {currentGarageID && <ToolbarSeparator />}
       {currentGarageID && <Dialog addCar={addCar} currentGarageID={currentGarageID} />}
     </ToolbarGroup>
   </Toolbar>

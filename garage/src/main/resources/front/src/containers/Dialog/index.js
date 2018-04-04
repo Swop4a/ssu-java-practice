@@ -5,6 +5,7 @@ import {
   RaisedButton,
   TextField,
   Checkbox,
+  DatePicker,
 } from 'material-ui';
 import { Form, Field } from 'react-final-form'
 
@@ -34,18 +35,16 @@ export default class MyDialog extends React.Component {
       ? formValues.running
       : false;
 
-    // TODO: remove this костыль
-    formValues.id = typeof formValues.id !== 'undefined'
-      ? formValues.id
-      : Math.floor((Math.random() * Math.random()) * 1e4);
-
-    this.props.addCar({ garageId: this.props.currentGarageID, car: formValues });
+    this.props.addCar({
+      garageId: this.props.currentGarageID,
+      car: formValues,
+    });
   }
 
   render() {
     return (
       <div>
-        <RaisedButton label="Add car" onClick={this.handleOpen} />
+        <RaisedButton primary label="Add car" onClick={this.handleOpen} />
 
         <Dialog
           title="Type data for a new car"
@@ -97,6 +96,20 @@ export default class MyDialog extends React.Component {
                 />
 
                 <br/>
+
+                <Field
+                  name="mileage"
+                  render={({ input, meta }) => (
+                    <TextField
+                      {...input}
+                      type="number"
+                      floatingLabelText="Mile age"
+                      errorText={meta.error}
+                     />
+                  )}
+                />
+
+                <br/>
                 <Field
                   name="running"
                   type="checkbox"
@@ -109,6 +122,23 @@ export default class MyDialog extends React.Component {
                     />
                   )}
                 />
+
+                <br/>
+                <Field
+                  name="creationDay"
+                  type="date"
+                  render={({ input }) => (
+                    <DatePicker
+                      {...input}
+                      value={input.value || null}
+                      onChange={(event, date) => {
+                        input.onChange(date);
+                      }}
+                      hintText="Creation day"
+                    />
+                  )}
+                />
+
                 <br/>
 
                 <FlatButton
@@ -139,6 +169,7 @@ const validate = (defaultError => values => {
   if (!values.make) errors.make = defaultError;
   if (!values.model) errors.model = defaultError;
   if (!values.color) errors.color = defaultError;
+  if (!values.mileage) errors.mileage = defaultError;
 
   return errors;
-})('error');
+})('Required');

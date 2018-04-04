@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Table,
   TableBody,
@@ -17,6 +17,8 @@ const MyTable = ({ cars, deleteCar }) => (
         <TableHeaderColumn>make</TableHeaderColumn>
         <TableHeaderColumn>model</TableHeaderColumn>
         <TableHeaderColumn>color</TableHeaderColumn>
+        <TableHeaderColumn>mileage</TableHeaderColumn>
+        <TableHeaderColumn>creation day</TableHeaderColumn>
         <TableHeaderColumn>running</TableHeaderColumn>
         <TableHeaderColumn>actions</TableHeaderColumn>
       </TableRow>
@@ -28,10 +30,13 @@ const MyTable = ({ cars, deleteCar }) => (
           <TableRowColumn>{car.make}</TableRowColumn>
           <TableRowColumn>{car.model}</TableRowColumn>
           <TableRowColumn>{car.color}</TableRowColumn>
+          <TableRowColumn>{car.mileage}</TableRowColumn>
+          <TableRowColumn>{car.creationDay}</TableRowColumn>
           <TableRowColumn>{car.running ? 'yes' : 'no'}</TableRowColumn>
           <TableRowColumn>
             <RaisedButton
               label="Delete"
+              secondary
               onClick={deleteCar.bind(null, car.id)}
             />
           </TableRowColumn>
