@@ -34,12 +34,10 @@ export default class MyDialog extends React.Component {
       ? formValues.running
       : false;
 
-    // TODO: remove this костыль
-    formValues.id = typeof formValues.id !== 'undefined'
-      ? formValues.id
-      : Math.floor((Math.random() * Math.random()) * 1e4);
-
-    this.props.addCar({ garageId: this.props.currentGarageID, car: formValues });
+    this.props.addCar({
+      garageId: this.props.currentGarageID,
+      car: formValues,
+    });
   }
 
   render() {

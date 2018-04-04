@@ -35,7 +35,7 @@ const MyToolbar = ({
     </ToolbarGroup>
     <ToolbarGroup>
       <ToolbarTitle
-        text={currentGarage ? `Capacity: ${currentGarage.capacity}` : 'Garages'}
+        text={currentGarage ? `Owner: ${currentGarage.host}` : 'Garages'}
       />
       {currentGarageID && <ToolbarSeparator />}
       {currentGarageID && <Dialog addCar={addCar} currentGarageID={currentGarageID} />}

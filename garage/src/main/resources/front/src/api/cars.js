@@ -10,8 +10,6 @@ export const addCar = carData =>
     },
     method: 'post',
     body: JSON.stringify(carData),
-  }, {
-    json: false,
   }).then(json => json.data)
 
 export const deleteCar = carID =>
