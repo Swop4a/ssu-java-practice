@@ -17,9 +17,9 @@ const MyTable = ({ cars, deleteCar }) => (
         <TableHeaderColumn>make</TableHeaderColumn>
         <TableHeaderColumn>model</TableHeaderColumn>
         <TableHeaderColumn>color</TableHeaderColumn>
-        <TableHeaderColumn>running</TableHeaderColumn>
         <TableHeaderColumn>mileage</TableHeaderColumn>
         <TableHeaderColumn>creation day</TableHeaderColumn>
+        <TableHeaderColumn>running</TableHeaderColumn>
         <TableHeaderColumn>actions</TableHeaderColumn>
       </TableRow>
     </TableHeader>
