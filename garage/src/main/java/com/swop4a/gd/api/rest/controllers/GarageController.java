@@ -36,19 +36,11 @@ public class GarageController {
 		return new ResponseEntity<>(garageService.findAll(), HttpStatus.OK);
 	}
 
-	@GetMapping("/getGarageInfo")
-	@ApiOperation(value = "/getGarageInfo", response = Garage.class)
-	@ApiResponse(code = 200, message = "return user", response = Garage.class)
-	public ResponseEntity<Garage> getGarageInfo(@RequestParam("id") Long garageId) {
-		return new ResponseEntity<>(garageService.findOne(garageId), HttpStatus.OK);
-	}
-
 	@PostMapping("/addCar")
 	@ApiOperation(value = "/addCar", response = List.class)
 	@ApiResponse(code = 200, message = "return user", response = List.class)
-	public ResponseEntity<Void> addCar(@RequestBody AddCarRequest request) {
-		garageService.addCar(request.getCar(), request.getGarageId());
-		return new ResponseEntity<>(HttpStatus.OK);
+	public ResponseEntity<Garage> addCar(@RequestBody AddCarRequest request) {
+		return new ResponseEntity<>(garageService.addCar(request.getCar(), request.getGarageId()), HttpStatus.OK);
 	}
 
 	@GetMapping("/removeCar")

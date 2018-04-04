@@ -2,6 +2,8 @@ server:
   port: 8082
   context-path: /api
 spring:
+  profiles:
+    active: rest,db
   datasource:
     url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     platform: h2

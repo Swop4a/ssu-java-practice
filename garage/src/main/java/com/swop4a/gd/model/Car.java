@@ -2,6 +2,7 @@ package com.swop4a.gd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -22,6 +23,7 @@ import lombok.ToString;
 public class Car {
 
 	@Id
+	@GeneratedValue
 	private Long id;
 	private String make;
 	private String model;

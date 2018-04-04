@@ -5,7 +5,7 @@ CREATE TABLE garage (
 );
 
 CREATE TABLE car (
-  id         BIGINT PRIMARY KEY,
+  id         IDENTITY PRIMARY KEY,
   make       VARCHAR(40),
   model      VARCHAR(40),
   color      VARCHAR(10),
