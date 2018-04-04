@@ -10,7 +10,7 @@ public interface GarageService {
 
 	Garage findOne(Long garageId);
 
-	void addCar(Car car, Long garageId);
+	Garage addCar(Car car, Long garageId);
 
 	void removeCar(Long carId);
 }
