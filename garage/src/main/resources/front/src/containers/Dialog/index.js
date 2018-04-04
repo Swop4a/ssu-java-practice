@@ -44,7 +44,7 @@ export default class MyDialog extends React.Component {
   render() {
     return (
       <div>
-        <RaisedButton label="Add car" onClick={this.handleOpen} />
+        <RaisedButton primary label="Add car" onClick={this.handleOpen} />
 
         <Dialog
           title="Type data for a new car"

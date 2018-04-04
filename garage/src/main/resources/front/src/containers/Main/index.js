@@ -8,13 +8,7 @@ import Toolbar from '../Toolbar';
 import { getGarages } from '../../api/garages';
 import { addCar as addCarAPI, deleteCar as deleteCarAPI } from '../../api/cars';
 
-const loadStyles = {
-  color: 'rgba(0, 0, 0, 0.87)',
-  paddingLeft: '24px',
-  fontSize: '20px',
-  margin: '15px 0',
-  display: 'block',
-};
+import './styles.css';
 
 export default class Main extends React.Component {
   state = {
@@ -75,8 +69,16 @@ export default class Main extends React.Component {
           handleChange={this.handleToolbarChange}
           addCar={this.addCar}
         />
-        <span style={loadStyles}>
+        <span className="garage-info">
           {currentGarage && `Load: ${currentGarage.currentLoad}`}
+        </span>
+        <span className="garage-info">
+          {currentGarage && `Owner: ${currentGarage.host}`}
+        </span>
+        <span className="garage-info">
+          {get('location', currentGarage) && (
+            `Location: ${currentGarage.location}`
+          )}
         </span>
         <Table
           cars={get('cars', currentGarage)}

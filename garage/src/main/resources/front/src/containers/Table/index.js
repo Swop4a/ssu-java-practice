@@ -36,6 +36,7 @@ const MyTable = ({ cars, deleteCar }) => (
           <TableRowColumn>
             <RaisedButton
               label="Delete"
+              secondary
               onClick={deleteCar.bind(null, car.id)}
             />
           </TableRowColumn>
