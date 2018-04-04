@@ -1,5 +1,6 @@
 package com.swop4a.gd.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,9 +22,14 @@ public class Garage {
 	@Id
 	@GeneratedValue
 	private Long id;
-	private int capacity;
 	private String title;
+	private String host;
+	private String location;
 
 	@OneToMany(mappedBy = "garage", fetch = FetchType.EAGER)
 	private List<Car> cars;
+
+	public int getCurrentLoad() {
+		return cars == null ? 0 : cars.size();
+	}
 }

@@ -1,6 +1,7 @@
 package com.swop4a.gd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -28,6 +29,8 @@ public class Car {
 	private String make;
 	private String model;
 	private String color;
+	private Date creationDay;
+	private Long mileage;
 	private boolean isRunning;
 
 	@JsonIgnore
