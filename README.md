@@ -1,4 +1,4 @@
- <h2>SSU Java course tasks</h2>
+ <h1>SSU Java course tasks</h1>
 
 **Calculator**
 
