@@ -40,7 +40,9 @@ public class GarageController {
 	@ApiOperation(value = "/addCar", response = List.class)
 	@ApiResponse(code = 200, message = "return user", response = List.class)
 	public ResponseEntity<Garage> addCar(@RequestBody AddCarRequest request) {
-		return new ResponseEntity<>(garageService.addCar(request.getCar(), request.getGarageId()), HttpStatus.OK);
+		Long garageId = request.getGarageId();
+		garageService.addCar(request.getCar(), garageId);
+		return new ResponseEntity<>(garageService.findOne(garageId), HttpStatus.OK);
 	}
 
 	@GetMapping("/removeCar")

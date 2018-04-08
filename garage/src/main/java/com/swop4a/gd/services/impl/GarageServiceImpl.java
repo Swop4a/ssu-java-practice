@@ -8,7 +8,6 @@ import com.swop4a.gd.model.Garage;
 import com.swop4a.gd.services.GarageService;
 import java.util.List;
 import java.util.Optional;
-import javax.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +46,13 @@ public class GarageServiceImpl implements GarageService {
 	}
 
 	@Override
-	@Transactional
-	public Garage addCar(Car car, Long garageId) {
+	public void addCar(Car car, Long garageId) {
 		LOGGER.info("INSERT CAR {} TO GARAGE {}", car, garageId);
 		Garage garage = Optional.ofNullable(car.getGarage())
 			.orElse(new Garage());
 		garage.setId(garageId);
 		car.setGarage(garage);
 		carDao.save(car);
-		return garageDao.findById(garageId);
 	}
 
 	@Override
