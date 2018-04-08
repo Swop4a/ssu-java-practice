@@ -22,6 +22,6 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
 		registry
 			.setApplicationDestinationPrefixes("/app")
-			.enableSimpleBroker("/chat");
+			.enableSimpleBroker("/topic");
 	}
 }
