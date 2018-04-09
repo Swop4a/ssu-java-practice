@@ -1,0 +1,32 @@
+Arguments: 
+  /Users/a.karelin/.nvm/versions/node/v6.11.2/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js start
+
+PATH: 
+  /Users/a.karelin/.nvm/versions/node/v6.11.2/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.5.1
+
+Node version: 
+  6.11.2
+
+Platform: 
+  darwin x64
+
+npm manifest: 
+  No manifest
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
+
+Trace: 
+  Error: Couldn't find a package.json file in "/Users/a.karelin/code/ssu-java-practice"
+      at MessageError.Error (native)
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:40048:15
+      at next (native)
+      at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:109:13
