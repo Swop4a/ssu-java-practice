@@ -1,16 +1,14 @@
 import { getAvatarColor } from './utils/getAvatarColor.js';
 import { chat as createChat } from './chat.js';
 
-var usernamePage = document.querySelector('#username-page');
-var chatPage = document.querySelector('#chat-page');
-var usernameForm = document.querySelector('#usernameForm');
-var messageForm = document.querySelector('#messageForm');
-var messageInput = document.querySelector('#message');
-var messageArea = document.querySelector('#messageArea');
-var connectingElement = document.querySelector('.connecting');
+const usernamePage = document.querySelector('#username-page');
+const chatPage = document.querySelector('#chat-page');
+const usernameForm = document.querySelector('#usernameForm');
+const messageForm = document.querySelector('#messageForm');
+const messageInput = document.querySelector('#message');
+const messageArea = document.querySelector('#messageArea');
+const connectingElement = document.querySelector('.connecting');
 const roomTitleElement = document.getElementById('room-title');
-
-let chat = null;
 
 function connect(event) {
   event.preventDefault();
@@ -19,7 +17,7 @@ function connect(event) {
   const room = document.querySelector('#room').value.trim();
 
   if (user && room) {
-    chat = createChat({
+    let chat = createChat({
       user,
       room,
       socketUrl: '/ws',

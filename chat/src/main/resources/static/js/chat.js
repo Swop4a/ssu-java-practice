@@ -4,7 +4,7 @@
  *                                     message receiving
  * @return {function}                actual new message handler
  */
-const handleNewMessage = onMessageReceive => payload => {
+const handleNewMessage = (onMessageReceive, room) => payload => {
   let message = null
 
   try {
@@ -13,7 +13,10 @@ const handleNewMessage = onMessageReceive => payload => {
     console.error('Can not parse payload body:', payload);
   }
 
-  if (typeof onMessageReceive === 'function' && message !== null) {
+  if (
+    typeof onMessageReceive === 'function'
+    && message !== null
+  ) {
     onMessageReceive(message)
   }
 }
@@ -27,8 +30,7 @@ const handleNewMessage = onMessageReceive => payload => {
  * @return {function}                  actual connection handler
  */
 const handleConnect = (client, settings, handlers) => () => {
-  // client.subscribe(`/topic/public/${settings.room}`, handlers.onMessageReceive);
-  client.subscribe(`/topic/public`, handlers.onMessageReceive);
+  client.subscribe(`/topic/public/${settings.room}`, handlers.onMessageReceive);
 
   client.send(
     `/app/chat.addUser/${settings.room}`,
@@ -93,7 +95,7 @@ export const chat = ({
       },
       {
         onConnect,
-        onMessageReceive: handleNewMessage(onMessageReceive),
+        onMessageReceive: handleNewMessage(onMessageReceive, room),
       },
     ),
     handleError(onError),
