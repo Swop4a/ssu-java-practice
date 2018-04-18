@@ -49,7 +49,15 @@ body:before {
   border: 1px solid #c8c8c8;
 }
 
-.form-group {
+.form-control:not(:last-child) {
+  margin-bottom: calc(38px / 4);
+}
+
+.form-control.form-control_solo {
+  margin-bottom: 0;
+}
+
+.form-group:not(:last-child) {
   margin-bottom: 15px;
 }
 
@@ -156,7 +164,7 @@ button.accent {
   overflow: auto;
   overflow-y: scroll;
   padding: 0 20px 0px 20px;
-  height: calc(100% - 150px);
+  height: calc(100% - 215px);
 }
 
 #chat-page #messageForm {
@@ -235,7 +243,7 @@ button.accent {
   border-bottom: 1px solid #ececec;
 }
 
-.chat-header h2 {
+.chat-header h2, .chat-header h3 {
   margin: 0;
   font-weight: 500;
 }
@@ -259,6 +267,10 @@ button.accent {
 }
 
 @media screen and (max-width: 480px) {
+  h1 {
+    font-size: 1.6em;
+  }
+
   .chat-container {
     height: calc(100% - 30px);
   }
@@ -271,7 +283,7 @@ button.accent {
   }
 
   #chat-page ul {
-    height: calc(100% - 120px);
+    height: calc(100% - 195px);
   }
 
   #messageForm .input-group button {
