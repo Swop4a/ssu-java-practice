@@ -15,7 +15,7 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 public class WebSocketEventListener {
 
 	//TODO make inject through YAML file
-	private static final String USERNAME = "params";
+	private static final String USERNAME = "username";
 	private static final String ROOM = "room";
 
 	private final SimpMessageSendingOperations messagingTemplate;

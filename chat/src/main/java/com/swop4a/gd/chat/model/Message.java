@@ -12,6 +12,7 @@ public class Message {
 
 	@Getter
 	public enum MessageType {
+		CONNECT,
 		CHAT,
 		JOIN,
 		LEAVE;
