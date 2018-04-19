@@ -14,7 +14,9 @@ import org.springframework.web.socket.messaging.SessionDisconnectEvent;
 @Component
 public class WebSocketEventListener {
 
-	private static final String SENDER_NAME_KEY = "username";
+	//TODO make inject through YAML file
+	private static final String USERNAME = "params";
+	private static final String ROOM = "room";
 
 	private final SimpMessageSendingOperations messagingTemplate;
 
@@ -32,15 +34,16 @@ public class WebSocketEventListener {
 	public void handleWebSocketDisconnectListener(SessionDisconnectEvent event) {
 		StompHeaderAccessor headerAccessor = StompHeaderAccessor.wrap(event.getMessage());
 
-		String username = (String) headerAccessor.getSessionAttributes().get(SENDER_NAME_KEY);
-		if (username != null) {
-			log.info("USER DISCONNECTED: {}", username);
+		String params = (String) headerAccessor.getSessionAttributes().get(USERNAME);
+		if (params != null) {
+			log.info("USER DISCONNECTED: {}", params);
 
 			Message chatMessage = new Message();
 			chatMessage.setType(Message.MessageType.LEAVE);
-			chatMessage.setSender(username);
+			chatMessage.setSender(params);
 
-			messagingTemplate.convertAndSend("/topic/public", chatMessage);
+			String room = (String) headerAccessor.getSessionAttributes().get(ROOM);
+			messagingTemplate.convertAndSend(String.format("/topic/rooms/%s", room), chatMessage);
 		}
 	}
 }
