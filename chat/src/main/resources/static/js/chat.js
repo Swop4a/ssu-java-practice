@@ -33,7 +33,7 @@ const handleConnect = (client, settings, handlers) => () => {
   client.subscribe(`/topic/public/${settings.room}`, handlers.onMessageReceive);
 
   client.send(
-    `/app/chat.addUser/${settings.room}`,
+    `/chat.addUser/${settings.room}`,
     {},
     JSON.stringify({ type: 'JOIN', sender: settings.user }),
   );
@@ -67,7 +67,7 @@ const handleError = onError => error => {
  */
 const sendMessage = (client, user, room) => message => {
   client.send(
-    `/app/chat.sendMessage/${room}`,
+    `/chat.sendMessage/${room}`,
     {},
     JSON.stringify({ type: 'CHAT', sender: user, content: message }),
   )
