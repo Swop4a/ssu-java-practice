@@ -30,18 +30,22 @@ public class ChatController {
 	@MessageMapping("/chat.sendMessage/{room}")
 	@SendTo("/topic/rooms/{room}")
 	public Message sendMessage(@Payload Message message) {
+		log.info("Send message from {} with content {}", message.getSender(), message.getContent());
 		return message;
 	}
 
 	@MessageMapping("/chat.connectUser")
 	public void connectUser(@Payload Message message, SimpMessageHeaderAccessor headerAccessor) {
-		headerAccessor.getSessionAttributes().put(USERNAME, message.getSender());
+		String sender = message.getSender();
+		log.info("Connected user {}", sender);
+		headerAccessor.getSessionAttributes().put(USERNAME, sender);
 	}
 
 	@MessageMapping("/chat.joinRoom/{room}")
 	@SendTo("/topic/rooms/{room}")
 	public Message joinRoom(@DestinationVariable String room, @Payload Message message,
 		SimpMessageHeaderAccessor headerAccessor) {
+		log.info("User {} joined the room {}", message.getSender(), room);
 		List<String> rooms = roomsDao.findAll();
 		if (!rooms.contains(room)) {
 			roomsDao.insert(room);
@@ -53,6 +57,7 @@ public class ChatController {
 	@MessageMapping("/chat.getRooms/")
 	@SendTo("/topic/users/{username}")
 	public List<String> getRooms() {
+		log.info("Get all rooms");
 		return roomsDao.findAll();
 	}
 }
