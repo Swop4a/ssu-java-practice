@@ -5,5 +5,8 @@ import org.springframework.boot.CommandLineRunner;
 
 public interface View {
 
+	/**
+	 * Run view.
+	 */
 	CommandLineRunner run(GarageService garageService);
 }
