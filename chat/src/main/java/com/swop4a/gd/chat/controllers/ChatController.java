@@ -53,7 +53,7 @@ public class ChatController {
 		return message;
 	}
 
-	@MessageMapping("/chat.getRooms/")
+	@MessageMapping("/chat.getRooms/{username}")
 	@SendTo("/topic/users/{username}")
 	public List<String> getRooms() {
 		log.info("Get all rooms");

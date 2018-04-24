@@ -1,9 +1,13 @@
 package com.swop4a.gd.chat.dao.impl;
 
 import com.swop4a.gd.chat.dao.RoomsDao;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -21,7 +25,7 @@ public class RoomsDaoImpl implements RoomsDao {
 
 	@Override
 	public List<String> findAll() {
-		return jdbcTemplate.query(SELECT_ALL_QUERY, (resultSet, i) -> resultSet.getString(i));
+		return jdbcTemplate.queryForList(SELECT_ALL_QUERY, String.class);
 	}
 
 	@Override
