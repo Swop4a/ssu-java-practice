@@ -1,12 +1,12 @@
  <h1>SSU Java course tasks</h1>
 
-**Calculator**
+<h2>Calculator</h2>
 
 Common calculator with console input dialog. 
 Powered by JavaScript engine. 
 Could be launched as Java application from Intellij Idea or through console command `java -jar %app%.jar`or `mvn spring-boot:run`
 
-**Garage**
+<h2>Garage</h2>
 
 Application provide operations for manipulations garage system
 
@@ -23,7 +23,7 @@ Application can be started from Intellij Idea or through console command `java -
   
 Start on http://localhost:8082/api  
 
-**Chat**
+<h2>Chat</h2>
 
 Chat was implemented throught Spring WebSocket.
 
