@@ -18,8 +18,29 @@ const connectingElement = document.querySelector('.connecting');
 const roomTitleElement = document.getElementById('room-title');
 const firstPageTitleElement = document.getElementById('username-page__title');
 
+const leftRoomButton = document.getElementById('left-room-button');
+
+
 let chat = null;
-const rooms = [];
+
+const wipeNode = node => {
+  while (node.firstChild) {
+    node.removeChild(node.firstChild);
+  }
+};
+
+const getRooms = () => {
+  chat.getRooms(rooms => {
+    wipeNode(roomSelect);
+    rooms.forEach(room => {
+      const option = document.createElement('option');
+      option.innerHTML = room;
+      option.value = room;
+
+      roomSelect.append(option);
+    });
+  });
+};
 
 function connect(event) {
   event.preventDefault();
@@ -31,19 +52,21 @@ function connect(event) {
       user,
       socketUrl: '/ws',
       onConnect: settings => {
-        chat.getRooms(rooms => {
-          rooms.forEach(room => {
-            const option = document.createElement('option');
-            option.innerHTML = room;
-            option.value = room;
-
-            roomSelect.append(option);
-          });
-        });
+        getRooms();
 
         firstPageTitleElement.innerHTML = 'Type room title or choose from existing';
 
         roomForm.addEventListener('submit', join, true)
+        leftRoomButton.addEventListener('click', () => {
+          chat.leaveRoom();
+          getRooms();
+
+          chatPage.classList.toggle('hidden');
+          connectingElement.classList.add('hidden');
+
+
+          wipeNode(messageArea);
+        }, true);
 
         usernameForm.classList.toggle('hidden');
         roomForm.classList.toggle('hidden');

@@ -114,7 +114,7 @@ export const chat = ({
         JSON.stringify({ type: 'JOIN', sender: this._user }),
       );
 
-      stompClient.subscribe(
+      this._messagesSubsciption = stompClient.subscribe(
         `/topic/rooms/${room}`,
         this._handleNewMessage,
       );
@@ -125,7 +125,7 @@ export const chat = ({
     },
 
     getRooms(onReceive) {
-      stompClient.subscribe(
+      this._roomSubscription = stompClient.subscribe(
         `/topic/users/${this._user}`,
         payload => {
           const message = handleMessage(payload);
@@ -134,6 +134,17 @@ export const chat = ({
       );
 
       stompClient.send(`/chat.getRooms/${this._user}`);
-    }
+    },
+
+    leaveRoom() {
+      this._roomSubscription.unsubscribe();
+      this._messagesSubsciption.unsubscribe();
+
+      stompClient.send(
+        `/chat.leaveRoom/${this._room}`,
+        {},
+        JSON.stringify({ type: "LEAVE", sender: this._user }),
+      );
+    },
   };
 };
