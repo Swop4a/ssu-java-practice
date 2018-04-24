@@ -15,7 +15,6 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @Controller
 public class ChatController {
-
 	//TODO make inject through YAML file
 	private static final String USERNAME = "username";
 	private static final String ROOM = "room";

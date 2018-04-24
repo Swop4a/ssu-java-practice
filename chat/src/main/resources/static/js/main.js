@@ -3,28 +3,35 @@ import { chat as createChat } from './chat.js';
 
 const usernamePage = document.querySelector('#username-page');
 const chatPage = document.querySelector('#chat-page');
+
 const usernameForm = document.querySelector('#usernameForm');
 const messageForm = document.querySelector('#messageForm');
+const roomForm = document.querySelector('#roomForm');
+
 const messageInput = document.querySelector('#message');
 const messageArea = document.querySelector('#messageArea');
+const roomInput = document.getElementById('room-input');
+
 const connectingElement = document.querySelector('.connecting');
 const roomTitleElement = document.getElementById('room-title');
+const firstPageTitleElement = document.getElementById('username-page__title');
+
+let chat = null;
 
 function connect(event) {
   event.preventDefault();
 
   const user = document.querySelector('#name').value.trim();
-  const room = document.querySelector('#room').value.trim();
 
-  if (user && room) {
-    let chat = createChat({
+  if (user) {
+    chat = createChat({
       user,
-      room,
       socketUrl: '/ws',
-      onConnect: (settings) => {
-        roomTitleElement.innerHTML = `Room: ${settings.room}`;
+      onConnect: settings => {
+        roomForm.addEventListener('submit', join, true)
 
-        connectingElement.classList.add('hidden');
+        usernameForm.classList.toggle('hidden');
+        roomForm.classList.toggle('hidden');
       },
       onMessageReceive: message => {
         const messageElement = document.createElement('li');
@@ -61,29 +68,48 @@ function connect(event) {
         messageArea.scrollTop = messageArea.scrollHeight;
       },
       onError: () => {
-        connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
-        connectingElement.style.color = 'red';
+        // connectingElement.textContent = 'Could not connect to WebSocket server. Please refresh this page to try again!';
+        // connectingElement.style.color = 'red';
       },
     });
 
-    messageForm.addEventListener(
-      'submit',
-      event => {
-        event.preventDefault();
+  }
+}
 
-        const messageContent = event.target[0].value.trim();
+function join(event) {
+  event.preventDefault();
 
-        if (messageContent) {
-          chat.sendMessage(messageContent),
+  const room = roomInput.value.trim();
 
-          event.target[0].value = '';
-        }
-      },
-      true,
+  if (room) {
+    chatPage.classList.toggle('hidden');
+
+    chat.joinRoom(
+      room,
+      () => {
+        roomInput.value = '';
+
+        messageForm.addEventListener(
+          'submit',
+          event => {
+            event.preventDefault();
+
+            const messageContent = event.target[0].value.trim();
+
+            if (messageContent) {
+              chat.sendMessage(messageContent),
+
+              event.target[0].value = '';
+            }
+          },
+          true,
+        );
+
+        roomTitleElement.innerHTML = `Room: ${room}`;
+
+        connectingElement.classList.add('hidden');
+      }
     );
-
-    usernamePage.classList.add('hidden');
-    chatPage.classList.remove('hidden');
   }
 }
 

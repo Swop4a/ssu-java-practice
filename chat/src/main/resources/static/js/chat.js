@@ -1,25 +1,4 @@
-/**
- * Handle new message received from the server
- * @param  {function} onMessageReceive callback that will be called after successful
- *                                     message receiving
- * @return {function}                actual new message handler
- */
-const handleNewMessage = (onMessageReceive, room) => payload => {
-  let message = null
-
-  try {
-    message = JSON.parse(payload.body);
-  } catch (error) {
-    console.error('Can not parse payload body:', payload);
-  }
-
-  if (
-    typeof onMessageReceive === 'function'
-    && message !== null
-  ) {
-    onMessageReceive(message)
-  }
-}
+// TODO: fix docs
 
 /**
  * Handle connection to the webscoket
@@ -29,17 +8,15 @@ const handleNewMessage = (onMessageReceive, room) => payload => {
  * @param  {{ onMessageReceive: function, onConnect: function }} handlers onMessageReceive callback
  * @return {function}                  actual connection handler
  */
-const handleConnect = (client, settings, handlers) => () => {
-  client.subscribe(`/topic/public/${settings.room}`, handlers.onMessageReceive);
-
+const handleConnect = (client, settings, onConnect) => () => {
   client.send(
-    `/chat.addUser/${settings.room}`,
+    `/chat.connectUser`,
     {},
-    JSON.stringify({ type: 'JOIN', sender: settings.user }),
+    JSON.stringify({ type: 'CONNECT', sender: settings.user }),
   );
 
-  if (typeof handlers.onConnect === 'function') {
-    handlers.onConnect(settings);
+  if (typeof onConnect === 'function') {
+    onConnect(settings);
   }
 }
 
@@ -56,27 +33,9 @@ const handleError = onError => error => {
   }
 }
 
-/**
- * Send message to the server
- * @param  {object} client web client, that actually performs all the
- *                         client-server communication actions
- * @param  {string} user   name of the user
- * @param  {string} room   name of the room
- * @return {function}      function that actually performs
- *                                            message sending
- */
-const sendMessage = (client, user, room) => message => {
-  client.send(
-    `/chat.sendMessage/${room}`,
-    {},
-    JSON.stringify({ type: 'CHAT', sender: user, content: message }),
-  )
-}
-
 
 export const chat = ({
   user,
-  room,
   socketUrl,
   onConnect,
   onMessageReceive,
@@ -89,19 +48,77 @@ export const chat = ({
     {},
     handleConnect(
       stompClient,
-      {
-        user,
-        room,
-      },
-      {
-        onConnect,
-        onMessageReceive: handleNewMessage(onMessageReceive, room),
-      },
+      { user, },
+      onConnect,
     ),
     handleError(onError),
   );
 
   return {
-    sendMessage: sendMessage(stompClient, user, room),
+    _user: user,
+    _room: null,
+
+    /**
+     * Send message to the server
+     * @param  {object} client web client, that actually performs all the
+     *                         client-server communication actions
+     * @param  {string} user   name of the user
+     * @param  {string} room   name of the room
+     * @return {function}      function that actually performs
+     *                                            message sending
+     */
+    sendMessage(message) {
+      stompClient.send(
+        `/chat.sendMessage/${this._room}`,
+        {},
+        JSON.stringify({
+          type: 'CHAT',
+          sender: this._user,
+          content: message,
+        }),
+      );
+    },
+
+    /**
+     * Handle new message received from the server
+     * @param  {function} onMessageReceive callback that will be called after successful
+     *                                     message receiving
+     * @return {function}                actual new message handler
+     */
+    _handleNewMessage(payload) {
+      let message = null
+
+      try {
+        message = JSON.parse(payload.body);
+      } catch (error) {
+        console.error('Can not parse payload body:', payload);
+      }
+
+      if (
+        typeof onMessageReceive === 'function'
+        && message !== null
+      ) {
+        onMessageReceive(message);
+      }
+    },
+
+    joinRoom(room, onJoin) {
+      this._room = room;
+
+      stompClient.send(
+        `/chat.joinRoom/${room}`,
+        {},
+        JSON.stringify({ type: 'JOIN', sender: this._user }),
+      );
+
+      stompClient.subscribe(
+        `/topic/rooms/${room}`,
+        this._handleNewMessage,
+      );
+
+      if (typeof onJoin === 'function') {
+        onJoin();
+      }
+    },
   };
 };
