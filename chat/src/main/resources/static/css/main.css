@@ -1,3 +1,9 @@
+:root {
+  --primary-color: #E52D77;
+  --secondary-color: #FFCD59;
+  --default-color: #B8D8CD;
+}
+
 * {
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -17,7 +23,7 @@ body {
   font-size: 1rem;
   line-height: 1.58;
   color: #333;
-  background-color: #f4f4f4;
+  background-color: var(--primary-color);
   height: 100%;
 }
 
@@ -27,7 +33,7 @@ body:before {
   position: absolute;
   top: 0;
   left: 0;
-  background: #128ff2;
+  background: var(--secondary-color);
   content: "";
   z-index: 0;
 }
@@ -100,19 +106,19 @@ button {
 }
 
 button.default {
-  background-color: #e8e8e8;
+  background-color: var(--default-color);;
   color: #333;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
 }
 
 button.primary {
-  background-color: #128ff2;
+  background-color: var(--primary-color);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
   color: #fff;
 }
 
 button.accent {
-  background-color: #ff4743;
+  background-color: var(--secondary-color);
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.12);
   color: #fff;
 }
