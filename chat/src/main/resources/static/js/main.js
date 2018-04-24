@@ -81,34 +81,36 @@ function join(event) {
 
   const room = roomInput.value.trim();
 
-  chatPage.classList.toggle('hidden');
+  if (room) {
+    chatPage.classList.toggle('hidden');
 
-  chat.joinRoom(
-    room,
-    () => {
-      roomInput.value = '';
+    chat.joinRoom(
+      room,
+      () => {
+        roomInput.value = '';
 
-      messageForm.addEventListener(
-        'submit',
-        event => {
-          event.preventDefault();
+        messageForm.addEventListener(
+          'submit',
+          event => {
+            event.preventDefault();
 
-          const messageContent = event.target[0].value.trim();
+            const messageContent = event.target[0].value.trim();
 
-          if (messageContent) {
-            chat.sendMessage(messageContent),
+            if (messageContent) {
+              chat.sendMessage(messageContent),
 
-            event.target[0].value = '';
-          }
-        },
-        true,
-      );
+              event.target[0].value = '';
+            }
+          },
+          true,
+        );
 
-      roomTitleElement.innerHTML = `Room: ${room}`;
+        roomTitleElement.innerHTML = `Room: ${room}`;
 
-      connectingElement.classList.add('hidden');
-    }
-  )
+        connectingElement.classList.add('hidden');
+      }
+    );
+  }
 }
 
 usernameForm.addEventListener('submit', connect, true)
