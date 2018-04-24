@@ -1,5 +1,14 @@
 // TODO: fix docs
 
+const handleMessage = message => {
+  try {
+    return JSON.parse(message.body);
+  } catch (error) {
+    console.error('Can not parse payload body:', payload);
+    return null;
+  }
+};
+
 /**
  * Handle connection to the webscoket
  * @param  {object} client           socket client, that actually performs all the
@@ -86,13 +95,7 @@ export const chat = ({
      * @return {function}                actual new message handler
      */
     _handleNewMessage(payload) {
-      let message = null
-
-      try {
-        message = JSON.parse(payload.body);
-      } catch (error) {
-        console.error('Can not parse payload body:', payload);
-      }
+      const message = handleMessage(payload);
 
       if (
         typeof onMessageReceive === 'function'
@@ -120,5 +123,17 @@ export const chat = ({
         onJoin();
       }
     },
+
+    getRooms(onReceive) {
+      stompClient.subscribe(
+        `/topic/users/${this._user}`,
+        payload => {
+          const message = handleMessage(payload);
+          onReceive(message);
+        },
+      );
+
+      stompClient.send(`/chat.getRooms/${this._user}`);
+    }
   };
 };

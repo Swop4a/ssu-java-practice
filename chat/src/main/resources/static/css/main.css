@@ -49,6 +49,11 @@ body:before {
   border: 1px solid #c8c8c8;
 }
 
+.form-option {
+  background-color: white;
+  height: 38px;
+}
+
 .form-control:not(:last-child) {
   margin-bottom: calc(38px / 4);
 }

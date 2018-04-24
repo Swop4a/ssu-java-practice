@@ -10,13 +10,16 @@ const roomForm = document.querySelector('#roomForm');
 
 const messageInput = document.querySelector('#message');
 const messageArea = document.querySelector('#messageArea');
+
 const roomInput = document.getElementById('room-input');
+const roomSelect = document.getElementById('room-select');
 
 const connectingElement = document.querySelector('.connecting');
 const roomTitleElement = document.getElementById('room-title');
 const firstPageTitleElement = document.getElementById('username-page__title');
 
 let chat = null;
+const rooms = [];
 
 function connect(event) {
   event.preventDefault();
@@ -28,6 +31,18 @@ function connect(event) {
       user,
       socketUrl: '/ws',
       onConnect: settings => {
+        chat.getRooms(rooms => {
+          rooms.forEach(room => {
+            const option = document.createElement('option');
+            option.innerHTML = room;
+            option.value = room;
+
+            roomSelect.append(option);
+          });
+        });
+
+        firstPageTitleElement.innerHTML = 'Type room title or choose from existing';
+
         roomForm.addEventListener('submit', join, true)
 
         usernameForm.classList.toggle('hidden');
@@ -79,7 +94,7 @@ function connect(event) {
 function join(event) {
   event.preventDefault();
 
-  const room = roomInput.value.trim();
+  const room = roomInput.value.trim() || roomSelect.value;
 
   if (room) {
     chatPage.classList.toggle('hidden');
