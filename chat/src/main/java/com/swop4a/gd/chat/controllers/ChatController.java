@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 @Slf4j
 @Controller
 public class ChatController {
+
 	//TODO make inject through YAML file
 	private static final String USERNAME = "username";
 	private static final String ROOM = "room";
@@ -50,6 +51,15 @@ public class ChatController {
 			roomsDao.insert(room);
 		}
 		headerAccessor.getSessionAttributes().put(ROOM, room);
+		return message;
+	}
+
+	@MessageMapping("/chat.leaveRoom/{room}")
+	@SendTo("/topic/rooms/{room}")
+	public Message leaveRoom(@DestinationVariable String room, @Payload Message message,
+		SimpMessageHeaderAccessor headerAccessor) {
+		log.info("User {} left room {}", message.getSender(), room);
+		headerAccessor.getSessionAttributes().remove(ROOM);
 		return message;
 	}
 
